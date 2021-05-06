@@ -4,9 +4,15 @@ import TrackPlayer, {
   addEventListener,
   getCurrentTrack,
   getTrack,
+  STATE_PAUSED,
+  STATE_PLAYING,
   TrackPlayerEvents,
+  useTrackPlayerEvents,
 } from 'react-native-track-player';
 import MusicInfo from 'expo-music-info';
+import {AppState} from 'react-native';
+
+const {PLAYBACK_STATE} = TrackPlayerEvents;
 
 interface props {
   children: React.ReactNode;
@@ -14,8 +20,21 @@ interface props {
 
 const index: React.FC<props> = ({children}) => {
   const [isReady, setIsReady] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<TrackPlayer.Track>(null);
+  const [currentTrack, setCurrentTrack] = useState<
+    TrackPlayer.Track | undefined
+  >();
   const [artWork, setArtWork] = useState<string | undefined>('');
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useTrackPlayerEvents([TrackPlayerEvents.PLAYBACK_STATE], event => {
+    if (event.type === PLAYBACK_STATE) {
+      if (event.state === STATE_PLAYING) {
+        setIsPlaying(true);
+      } else if (event.state === STATE_PAUSED) {
+        setIsPlaying(false);
+      }
+    }
+  });
 
   useEffect(() => {
     TrackPlayer.setupPlayer().then(() => {
@@ -47,25 +66,29 @@ const index: React.FC<props> = ({children}) => {
 
       if (trackInfo) {
         setCurrentTrack(trackInfo);
-        const pic = await MusicInfo.getMusicInfoAsync(
-          `file://${trackInfo.url}`,
-          {
-            title: true,
-            artist: true,
-            album: true,
-            genre: true,
-            picture: true,
-          },
-        );
+        // const pic = await MusicInfo.getMusicInfoAsync(
+        //   `file://${trackInfo.url}`,
+        //   {
+        //     picture: true,
+        //   },
+        // );
 
-        setArtWork(pic?.picture?.pictureData);
+        // setArtWork(pic?.picture?.pictureData);
+      }
+    });
+
+    AppState.addEventListener('change', async appState => {
+      if (appState == 'active') {
+        const state = await TrackPlayer.getState();
+
+        setIsPlaying(state == TrackPlayer.STATE_PLAYING);
       }
     });
   }, []);
 
   return (
     <PlayerContext.Provider
-      value={{isReady, currentTrack, artWork, setArtWork}}>
+      value={{isReady, currentTrack, artWork, setArtWork, isPlaying}}>
       {children}
     </PlayerContext.Provider>
   );

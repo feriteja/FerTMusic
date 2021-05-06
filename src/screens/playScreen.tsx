@@ -1,10 +1,9 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {themeDark} from '../constant/colors';
-import IconEntypo from 'react-native-vector-icons/Entypo';
 import {usePlayer} from '../context/playerContext/context';
-import TrackPlayer from 'react-native-track-player';
-import {Gap} from '../components';
+
+import {Gap, MusicController} from '../components';
 
 const playScreen = () => {
   const themeCol = themeDark;
@@ -12,16 +11,6 @@ const playScreen = () => {
   const {artist, title, duration} = controller?.currentTrack || {};
 
   console.log(controller);
-
-  const skipToNext = () => {
-    TrackPlayer.skipToNext();
-    controller.setArtWork('');
-  };
-
-  const skiptoPrev = () => {
-    TrackPlayer.skipToPrevious();
-    controller.setArtWork('');
-  };
 
   return (
     <View style={[styles.container, {backgroundColor: themeCol.backGround}]}>
@@ -51,36 +40,7 @@ const playScreen = () => {
         <Gap height={20} />
       </View>
       <View style={styles.controlOption}>
-        <View style={styles.controller}>
-          <TouchableOpacity onPress={() => skiptoPrev()}>
-            <IconEntypo
-              name="controller-jump-to-start"
-              color={themeCol.icon}
-              size={40}
-            />
-          </TouchableOpacity>
-          <View
-            style={[
-              styles.circlePlay,
-              {
-                backgroundColor: themeCol.icon,
-              },
-            ]}>
-            <IconEntypo
-              style={{left: 3}}
-              name="controller-play"
-              color={themeCol.backGround}
-              size={40}
-            />
-          </View>
-          <TouchableOpacity onPress={() => skipToNext()}>
-            <IconEntypo
-              name="controller-next"
-              color={themeCol.icon}
-              size={40}
-            />
-          </TouchableOpacity>
-        </View>
+        <MusicController />
       </View>
     </View>
   );
@@ -99,12 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 45 / 2,
   },
-  controller: {
-    flexDirection: 'row',
-    width: 150,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
+
   controlOption: {
     flex: 1,
     justifyContent: 'center',

@@ -2,9 +2,10 @@ import React, {createContext, useContext} from 'react';
 import {Track} from 'react-native-track-player';
 
 type ContextType = {
-  currentTrack: Track;
+  currentTrack: Track | undefined;
   isReady: boolean;
   artWork: string | undefined;
+  isPlaying: boolean;
   setArtWork: (value: string) => void;
 };
 

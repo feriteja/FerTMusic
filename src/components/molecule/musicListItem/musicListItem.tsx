@@ -1,35 +1,30 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {themeDark} from '../../../constant/colors';
 import {iMusic} from '../../../constant/interface';
 import {CoverImage} from 'react-native-get-music-files-v3dev-test';
+import TrackPlayer, {Track} from 'react-native-track-player';
+import {useNavigation} from '@react-navigation/core';
 
-const musicListItem = ({item}: {item: iMusic}) => {
+const musicListItem = ({item}: {item: Track}) => {
   const themeCol = themeDark;
 
+  const navigation = useNavigation();
   const [imageUri, setImageUri] = useState(null);
 
-  // const getArtworkSong = async () => {
-  //   try {
-  //     const musicInfo = await MusicInfo.getMusicInfoAsync(
-  //       `file://${item.url}`,
-  //       {
-  //         picture: true,
-  //       },
-  //     );
+  const musicPickHandler = async () => {
+    try {
+      await TrackPlayer.skip(item.id);
 
-  //     setImageUri(musicInfo.picture.pictureData);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  useEffect(() => {
-    // getArtworkSong();
-  }, []);
+      navigation.navigate('play');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => musicPickHandler()}
       style={{
         backgroundColor: themeCol.card,
         marginVertical: 5,
@@ -56,7 +51,7 @@ const musicListItem = ({item}: {item: iMusic}) => {
           {item.artist}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
