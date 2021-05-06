@@ -4,13 +4,13 @@ import {View, Text, Button, Image} from 'react-native';
 import Router from './src/config/router/router';
 import {themeDark} from './src/constant/colors';
 
-import PlaylistProvider from './src/context/playListContext';
+import Context from './src/context';
 
 const App = () => {
   const themeCol = themeDark;
 
   return (
-    <PlaylistProvider>
+    <Context>
       <View
         style={{
           flex: 1,
@@ -18,7 +18,7 @@ const App = () => {
         }}>
         <Router />
       </View>
-    </PlaylistProvider>
+    </Context>
   );
 };
 

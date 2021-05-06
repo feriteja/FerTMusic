@@ -3,7 +3,7 @@ const color = {
     '#090909',
     '#191919',
     '#0f0f0f',
-    '#0f0f0f',
+    '#1f1f1f',
     '#292929',
     '#2f2f2f',
     '#393939',
@@ -31,6 +31,7 @@ const themeDark = {
   text: color.white[0],
   icon: color.white[1],
   iconContainerFocus: color.dark[5],
+  card: color.dark[1],
 };
 
 const themeLight = {

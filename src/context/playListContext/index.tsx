@@ -1,35 +1,34 @@
 import React, {ContextType, useEffect, useState} from 'react';
-import TrackPlayer from 'react-native-track-player';
-import MusicFiles, {
-  Constants,
-  CoverImage,
-} from 'react-native-get-music-files-v3dev-test';
-import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
-import {iMusic} from '../constant/interface';
+import TrackPlayer, {Track, TrackType} from 'react-native-track-player';
+import MusicFiles, {Constants} from 'react-native-get-music-files-v3dev-test';
+import {
+  check,
+  requestMultiple,
+  checkMultiple,
+  PERMISSIONS,
+  request,
+  RESULTS,
+} from 'react-native-permissions';
+import {iMusic} from '../../constant/interface';
+import {PlayListContext} from './context';
 
 interface props {
   children: React.ReactNode;
 }
 
-type contextType = {
-  playList: iMusic[];
-};
-
-export const MusicListContext = React.createContext<contextType>(
-  {} as contextType,
-);
-
 const playListContext: React.FC<props> = ({children}) => {
-  const [playList, setPlayList] = useState([]);
+  const [playList, setPlayList] = useState<iMusic[]>([]);
 
   const checkPermission = async () => {
-    const storagePermit = await check(
+    const storagePermit = await checkMultiple([
       PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-    );
+      PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+    ]);
+    console.log(storagePermit);
 
-    switch (storagePermit) {
+    switch (storagePermit['android.permission.READ_EXTERNAL_STORAGE']) {
       case RESULTS.UNAVAILABLE:
-        request(PERMISSIONS.IOS.LOCATION_ALWAYS).then(result => {
+        request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE).then(result => {
           console.log(result);
         });
         break;
@@ -62,7 +61,9 @@ const playListContext: React.FC<props> = ({children}) => {
         sortOrder: Constants.SortOrder.Ascending,
       });
 
-      const musicList: iMusic[] =
+      console.log(list);
+
+      const musicList: any =
         list?.results?.map(song => {
           return {
             album: song.album,
@@ -71,6 +72,7 @@ const playListContext: React.FC<props> = ({children}) => {
             id: song.id,
             url: song.path,
             title: song.title,
+            // artwork: musicInfo,
           };
         }) || {};
 
@@ -82,14 +84,19 @@ const playListContext: React.FC<props> = ({children}) => {
     }
   };
 
-  useEffect(() => {
+  const skip = (id: string) => {
+    return TrackPlayer.skip(id);
+  };
+
+  const next = useEffect(() => {
     checkPermission();
+    return () => TrackPlayer.destroy();
   }, []);
 
   return (
-    <MusicListContext.Provider value={playList}>
+    <PlayListContext.Provider value={{playList}}>
       {children}
-    </MusicListContext.Provider>
+    </PlayListContext.Provider>
   );
 };
 
