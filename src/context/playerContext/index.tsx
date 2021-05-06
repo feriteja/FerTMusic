@@ -6,6 +6,7 @@ import TrackPlayer, {
   getTrack,
   TrackPlayerEvents,
 } from 'react-native-track-player';
+import MusicInfo from 'expo-music-info';
 
 interface props {
   children: React.ReactNode;
@@ -13,9 +14,8 @@ interface props {
 
 const index: React.FC<props> = ({children}) => {
   const [isReady, setIsReady] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<TrackPlayer.Track | null>(
-    null,
-  );
+  const [currentTrack, setCurrentTrack] = useState<TrackPlayer.Track>(null);
+  const [artWork, setArtWork] = useState<string | undefined>('');
 
   useEffect(() => {
     TrackPlayer.setupPlayer().then(() => {
@@ -47,12 +47,25 @@ const index: React.FC<props> = ({children}) => {
 
       if (trackInfo) {
         setCurrentTrack(trackInfo);
+        const pic = await MusicInfo.getMusicInfoAsync(
+          `file://${trackInfo.url}`,
+          {
+            title: true,
+            artist: true,
+            album: true,
+            genre: true,
+            picture: true,
+          },
+        );
+
+        setArtWork(pic?.picture?.pictureData);
       }
     });
   }, []);
 
   return (
-    <PlayerContext.Provider value={{isReady, currentTrack}}>
+    <PlayerContext.Provider
+      value={{isReady, currentTrack, artWork, setArtWork}}>
       {children}
     </PlayerContext.Provider>
   );
