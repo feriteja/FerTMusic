@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {themeDark} from '../../../constant/colors';
-import {iMusic} from '../../../constant/interface';
-import {CoverImage} from 'react-native-get-music-files-v3dev-test';
 import TrackPlayer, {Track} from 'react-native-track-player';
 import {useNavigation} from '@react-navigation/core';
 

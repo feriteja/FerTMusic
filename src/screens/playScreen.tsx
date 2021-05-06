@@ -3,14 +3,12 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {themeDark} from '../constant/colors';
 import {usePlayer} from '../context/playerContext/context';
 
-import {Gap, MusicController} from '../components';
+import {Gap, MusicController, ProgressPlay} from '../components';
 
 const playScreen = () => {
   const themeCol = themeDark;
   const controller = usePlayer();
   const {artist, title, duration} = controller?.currentTrack || {};
-
-  console.log(controller);
 
   return (
     <View style={[styles.container, {backgroundColor: themeCol.backGround}]}>
@@ -38,6 +36,7 @@ const playScreen = () => {
           {artist || ''}
         </Text>
         <Gap height={20} />
+        <ProgressPlay />
       </View>
       <View style={styles.controlOption}>
         <MusicController />

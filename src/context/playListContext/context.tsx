@@ -1,8 +1,8 @@
 import React, {createContext, useContext} from 'react';
-import {iMusic} from '../../constant/interface';
+import {Track} from 'react-native-track-player';
 
 type contextType = {
-  playList: iMusic[];
+  playList: Track[];
 };
 
 export const PlayListContext = createContext<contextType>({} as contextType);

@@ -10,8 +10,6 @@ const mainScreen = () => {
 
   const musicList = useContext(PlayListContext);
 
-  console.log(musicList);
-
   return (
     <View style={{flex: 1, backgroundColor: themeCol.backGround}}>
       <FlatList
