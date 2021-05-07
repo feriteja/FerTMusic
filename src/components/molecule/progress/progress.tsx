@@ -13,13 +13,17 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import {
+  PanGestureHandler,
+  State,
+  TapGestureHandler,
+  TapGestureHandlerStateChangeEvent,
+} from 'react-native-gesture-handler';
 import {usePlayer} from '../../../context/playerContext/context';
 
 const progress = () => {
   const {position, duration} = useTrackPlayerProgress(1000, null);
-
-  const {isPlaying, currentTrack} = usePlayer();
+  const {currentTrack} = usePlayer();
   const progress = useSharedValue(0);
 
   useEffect(() => {
@@ -65,30 +69,41 @@ const progress = () => {
       if (ctx.startX + event.translationX > 250) {
         progress.value = 250;
       }
+      console.log('invok');
 
       runOnJS(seekTo)((progress.value / 250) * duration);
     },
   });
+
+  const onseekerTap = (event: TapGestureHandlerStateChangeEvent) => {
+    if (event.nativeEvent.state === State.ACTIVE) {
+      console.log('tap', event.nativeEvent);
+      cancelAnimation(progress);
+      progress.value = event.nativeEvent.x;
+      seekTo((event.nativeEvent.x / 250) * duration);
+    }
+  };
 
   return (
     <View>
       <Text style={{color: 'white'}}>
         {position}/{duration}
       </Text>
-      <View
-        style={{
-          height: 10,
-          backgroundColor: 'white',
-          width: 250,
-          justifyContent: 'center',
-          // overflow: 'hidden',
-        }}>
-        <Animated.View>
-          <PanGestureHandler onGestureEvent={gestureHandler}>
-            <Animated.View style={[styles.ballSeek, aniStyle]} />
-          </PanGestureHandler>
-        </Animated.View>
-      </View>
+      <TapGestureHandler onHandlerStateChange={onseekerTap}>
+        <View
+          style={{
+            height: 10,
+            backgroundColor: 'white',
+            width: 250,
+            justifyContent: 'center',
+          }}>
+          <Animated.View>
+            <PanGestureHandler minDist={20} onGestureEvent={gestureHandler}>
+              <Animated.View style={[styles.ballSeek, aniStyle]} />
+            </PanGestureHandler>
+          </Animated.View>
+        </View>
+      </TapGestureHandler>
     </View>
   );
 };

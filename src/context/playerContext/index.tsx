@@ -68,14 +68,6 @@ const index: React.FC<props> = ({children}) => {
 
       if (trackInfo) {
         setCurrentTrack(trackInfo);
-        // const pic = await MusicInfo.getMusicInfoAsync(
-        //   `file://${trackInfo.url}`,
-        //   {
-        //     picture: true,
-        //   },
-        // );
-
-        // setArtWork(pic?.picture?.pictureData);
       }
     });
 
