@@ -57,6 +57,8 @@ const index: React.FC<props> = ({children}) => {
         ],
       }).then(() => setIsReady(true));
     });
+
+    return () => TrackPlayer.destroy();
   }, []);
 
   useEffect(() => {

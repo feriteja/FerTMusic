@@ -36,9 +36,11 @@ const playScreen = () => {
           {artist || ''}
         </Text>
         <Gap height={20} />
-        <ProgressPlay />
       </View>
       <View style={styles.controlOption}>
+        <ProgressPlay />
+        <Gap height={20} />
+
         <MusicController />
       </View>
     </View>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   },
 
   controlOption: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
   },

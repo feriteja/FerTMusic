@@ -28,9 +28,7 @@ const playListContext: React.FC<props> = ({children}) => {
 
     switch (storagePermit['android.permission.READ_EXTERNAL_STORAGE']) {
       case RESULTS.UNAVAILABLE:
-        request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE).then(result => {
-          console.log(result);
-        });
+        request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
         break;
       case RESULTS.DENIED:
         console.log(
@@ -61,8 +59,6 @@ const playListContext: React.FC<props> = ({children}) => {
         sortOrder: Constants.SortOrder.Ascending,
       });
 
-      console.log(list);
-
       const musicList: any =
         list?.results?.map(song => {
           return {
@@ -84,13 +80,8 @@ const playListContext: React.FC<props> = ({children}) => {
     }
   };
 
-  const skip = (id: string) => {
-    return TrackPlayer.skip(id);
-  };
-
-  const next = useEffect(() => {
+  useEffect(() => {
     checkPermission();
-    return () => TrackPlayer.destroy();
   }, []);
 
   return (
