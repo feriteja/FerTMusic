@@ -20,6 +20,7 @@ import {
   TapGestureHandlerStateChangeEvent,
 } from 'react-native-gesture-handler';
 import {usePlayer} from '../../../context/playerContext/context';
+import {songTime} from '../../../functions';
 
 const progress = () => {
   const {position, duration} = useTrackPlayerProgress(1000, null);
@@ -86,9 +87,14 @@ const progress = () => {
 
   return (
     <View>
-      <Text style={{color: 'white'}}>
-        {position}/{duration}
-      </Text>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingVertical: 10,
+        }}>
+        <Text style={{color: 'white'}}>{songTime(position, duration)}</Text>
+      </View>
       <TapGestureHandler onHandlerStateChange={onseekerTap}>
         <View
           style={{
