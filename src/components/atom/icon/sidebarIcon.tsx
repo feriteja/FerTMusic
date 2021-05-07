@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, useWindowDimensions} from 'react-native';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {themeDark} from '../../../constant/colors';
 
@@ -25,8 +25,7 @@ const sidebarIcon = ({
       onPress={() => navigation.navigate(to)}
       style={{
         backgroundColor: isFocus ? themeCol.iconContainerFocus : 'transparent',
-        alignSelf: 'stretch',
-        justifyContent: 'center',
+
         alignItems: 'center',
         marginVertical: 5,
         paddingVertical: 5,

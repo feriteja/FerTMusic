@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   View,
+  Dimensions,
 } from 'react-native';
 import {themeDark} from '../../constant/colors';
-import {IconSidebar} from '../../components';
+import {IconSidebar, ProgressSideBar} from '../../components';
+
+const {width} = Dimensions.get('screen');
 
 const Drawer = createDrawerNavigator();
 
 const DrawerContent = ({navigation, state: {index}}) => {
   const themeCol = themeDark;
-
   return (
     <View
       style={{
@@ -26,24 +28,38 @@ const DrawerContent = ({navigation, state: {index}}) => {
         backgroundColor: themeCol.sideBar,
         elevation: 2,
       }}>
-      <Image
-        source={require('../../assets/icon/logo.png')}
-        style={{height: 40, resizeMode: 'contain'}}
-      />
-      <IconSidebar
-        navigation={navigation}
-        navState={index}
-        index={0}
-        to="main"
-        name="list"
-      />
-      <IconSidebar
-        navigation={navigation}
-        navState={index}
-        index={1}
-        to="play"
-        name="play-circle"
-      />
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+        }}>
+        <Image
+          source={require('../../assets/icon/logo.png')}
+          style={{
+            height: 40,
+            resizeMode: 'contain',
+            justifyContent: 'flex-start',
+          }}
+        />
+        <IconSidebar
+          navigation={navigation}
+          navState={index}
+          index={0}
+          to="main"
+          name="list"
+        />
+        <IconSidebar
+          navigation={navigation}
+          navState={index}
+          index={1}
+          to="play"
+          name="play-circle"
+        />
+      </View>
+
+      <View style={{paddingVertical: 20}}>
+        <ProgressSideBar />
+      </View>
     </View>
   );
 };
