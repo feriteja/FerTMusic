@@ -21,11 +21,14 @@ import {
 } from 'react-native-gesture-handler';
 import {usePlayer} from '../../../context/playerContext/context';
 import {songTime} from '../../../functions';
+import {themeDark} from '../../../constant/colors';
 
 const progress = () => {
   const {position, duration} = useTrackPlayerProgress(1000, null);
   const {currentTrack} = usePlayer();
   const progress = useSharedValue(0);
+
+  const themeCol = themeDark;
 
   useEffect(() => {
     progress.value = withTiming(0);
@@ -99,10 +102,10 @@ const progress = () => {
         <View
           style={{
             height: 10,
-            backgroundColor: 'white',
             width: 250,
             justifyContent: 'center',
             borderRadius: 99,
+            backgroundColor: themeCol.progressBar,
           }}>
           <Animated.View>
             <PanGestureHandler minDist={20} onGestureEvent={gestureHandler}>

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
@@ -42,8 +42,15 @@ const progressSidebar = () => {
   });
 
   return (
-    <View>
-      <View />
+    <View style={{alignItems: 'center'}}>
+      <View
+        style={{
+          height: 150,
+          width: 7,
+          backgroundColor: 'white',
+          borderRadius: 99,
+          marginVertical: 10,
+        }}></View>
       <Animated.Image
         source={require('../../../assets/icon/logo.png')}
         style={[{height: 50, width: 50}, aniImageStyle]}
