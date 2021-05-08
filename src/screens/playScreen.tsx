@@ -1,14 +1,47 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {themeDark} from '../constant/colors';
 import {usePlayer} from '../context/playerContext/context';
 
 import {Gap, MusicController, ProgressPlay} from '../components';
+import Animated, {
+  cancelAnimation,
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 
 const playScreen = () => {
   const themeCol = themeDark;
   const controller = usePlayer();
-  const {artist, title, duration} = controller?.currentTrack || {};
+  const {artist, title} = controller?.currentTrack || {};
+  const imageRotation = useSharedValue(0);
+
+  const {isPlaying} = usePlayer();
+
+  useEffect(() => {
+    if (!isPlaying) {
+      cancelAnimation(imageRotation);
+      console.log(imageRotation.value);
+    }
+    if (isPlaying) {
+      imageRotation.value = withRepeat(
+        withTiming(imageRotation.value + 360, {
+          duration: 4000,
+          easing: Easing.linear,
+        }),
+        -1,
+      );
+    }
+  }, [isPlaying]);
+
+  const aniImage = useAnimatedStyle(() => {
+    return {
+      transform: [{rotate: `${imageRotation.value}deg`}],
+    };
+  });
 
   return (
     <View style={[styles.container, {backgroundColor: themeCol.backGround}]}>
@@ -19,13 +52,13 @@ const playScreen = () => {
           alignItems: 'center',
           marginHorizontal: 20,
         }}>
-        <Image
+        <Animated.Image
           source={
             controller.artWork
               ? {uri: controller.artWork}
               : require('../assets/icon/logo.png')
           }
-          style={{height: 200, width: 200}}
+          style={[{height: 200, width: 200}, aniImage]}
         />
         <Gap height={20} />
         <Text style={[styles.textTitle, {color: themeCol.text}]}>

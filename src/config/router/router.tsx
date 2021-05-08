@@ -56,10 +56,11 @@ const DrawerContent = ({navigation, state: {index}}) => {
           name="play-circle"
         />
       </View>
-
-      <View style={{paddingVertical: 20}}>
-        <ProgressSideBar />
-      </View>
+      {index != 1 && (
+        <View style={{paddingVertical: 20}}>
+          <ProgressSideBar />
+        </View>
+      )}
     </View>
   );
 };

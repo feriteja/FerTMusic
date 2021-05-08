@@ -11,6 +11,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  withRepeat,
   withTiming,
 } from 'react-native-reanimated';
 import {
