@@ -10,23 +10,9 @@ const controller = () => {
 
   const controller = usePlayer();
 
-  const skipToNext = () => {
-    TrackPlayer.skipToNext();
-    controller.setArtWork('');
-  };
-
-  const skiptoPrev = () => {
-    TrackPlayer.skipToPrevious();
-    controller.setArtWork('');
-  };
-
-  const playhandler = () => {
-    controller.isPlaying ? TrackPlayer.pause() : TrackPlayer.play();
-  };
-
   return (
     <View style={styles.controller}>
-      <TouchableOpacity onPress={() => skiptoPrev()}>
+      <TouchableOpacity onPress={() => controller.skiptoPrev()}>
         <IconEntypo
           name="controller-jump-to-start"
           color={themeCol.icon}
@@ -34,7 +20,7 @@ const controller = () => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => playhandler()}
+        onPress={() => controller.playhandler()}
         style={[
           styles.circlePlay,
           {
@@ -56,7 +42,7 @@ const controller = () => {
           />
         )}
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => skipToNext()}>
+      <TouchableOpacity onPress={() => controller.skipToNext()}>
         <IconEntypo name="controller-next" color={themeCol.icon} size={40} />
       </TouchableOpacity>
     </View>

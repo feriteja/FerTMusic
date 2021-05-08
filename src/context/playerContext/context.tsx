@@ -7,6 +7,9 @@ type ContextType = {
   artWork: string | undefined;
   isPlaying: boolean;
   setArtWork: (value: string) => void;
+  skiptoPrev: () => void;
+  skipToNext: () => void;
+  playhandler: () => void;
 };
 
 export const PlayerContext = createContext<ContextType>({} as ContextType);

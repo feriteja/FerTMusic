@@ -26,6 +26,7 @@ const index: React.FC<props> = ({children}) => {
   const [artWork, setArtWork] = useState<string | undefined>('');
   const [isPlaying, setIsPlaying] = useState(false);
 
+  //listen  is player curently playing
   useTrackPlayerEvents([TrackPlayerEvents.PLAYBACK_STATE], event => {
     if (event.type === PLAYBACK_STATE) {
       if (event.state === STATE_PLAYING) {
@@ -36,6 +37,7 @@ const index: React.FC<props> = ({children}) => {
     }
   });
 
+  // player Capability
   useEffect(() => {
     TrackPlayer.setupPlayer().then(() => {
       TrackPlayer.updateOptions({
@@ -61,6 +63,7 @@ const index: React.FC<props> = ({children}) => {
     return () => TrackPlayer.destroy();
   }, []);
 
+  //player Listener to curent track
   useEffect(() => {
     addEventListener(TrackPlayerEvents.PLAYBACK_TRACK_CHANGED, async () => {
       const trackId = await getCurrentTrack();
@@ -80,9 +83,30 @@ const index: React.FC<props> = ({children}) => {
     });
   }, []);
 
+  const skipToNext = () => {
+    TrackPlayer.skipToNext();
+  };
+
+  const skiptoPrev = () => {
+    TrackPlayer.skipToPrevious();
+  };
+
+  const playhandler = () => {
+    isPlaying ? TrackPlayer.pause() : TrackPlayer.play();
+  };
+
   return (
     <PlayerContext.Provider
-      value={{isReady, currentTrack, artWork, setArtWork, isPlaying}}>
+      value={{
+        isReady,
+        currentTrack,
+        artWork,
+        setArtWork,
+        isPlaying,
+        skiptoPrev,
+        skipToNext,
+        playhandler,
+      }}>
       {children}
     </PlayerContext.Provider>
   );
