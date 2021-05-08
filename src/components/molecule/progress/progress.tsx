@@ -77,8 +77,8 @@ const progress = () => {
   });
 
   const onseekerTap = (event: TapGestureHandlerStateChangeEvent) => {
-    if (event.nativeEvent.state === State.ACTIVE) {
-      console.log('tap', event.nativeEvent);
+    console.log(event.nativeEvent);
+    if (event.nativeEvent.state === State.BEGAN) {
       cancelAnimation(progress);
       progress.value = event.nativeEvent.x;
       seekTo((event.nativeEvent.x / 250) * duration);
