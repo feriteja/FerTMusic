@@ -8,11 +8,11 @@ import {usePlayer} from '../../../context/playerContext/context';
 const controller = () => {
   const themeCol = themeDark;
 
-  const controller = usePlayer();
+  const MusicController = usePlayer();
 
   return (
     <View style={styles.controller}>
-      <TouchableOpacity onPress={() => controller.skiptoPrev()}>
+      <TouchableOpacity onPress={() => MusicController.skiptoPrev()}>
         <IconEntypo
           name="controller-jump-to-start"
           color={themeCol.icon}
@@ -20,14 +20,14 @@ const controller = () => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => controller.playhandler()}
+        onPress={() => MusicController.playhandler()}
         style={[
           styles.circlePlay,
           {
             backgroundColor: themeCol.icon,
           },
         ]}>
-        {controller.isPlaying ? (
+        {MusicController.isPlaying ? (
           <IconEntypo
             name="controller-paus"
             color={themeCol.backGround}
@@ -42,7 +42,7 @@ const controller = () => {
           />
         )}
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => controller.skipToNext()}>
+      <TouchableOpacity onPress={() => MusicController.skipToNext()}>
         <IconEntypo name="controller-next" color={themeCol.icon} size={40} />
       </TouchableOpacity>
     </View>
