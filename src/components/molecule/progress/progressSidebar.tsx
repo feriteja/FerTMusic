@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   cancelAnimation,
   Easing,
