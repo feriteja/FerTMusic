@@ -102,6 +102,7 @@ const progress = () => {
             backgroundColor: 'white',
             width: 250,
             justifyContent: 'center',
+            borderRadius: 99,
           }}>
           <Animated.View>
             <PanGestureHandler minDist={20} onGestureEvent={gestureHandler}>
