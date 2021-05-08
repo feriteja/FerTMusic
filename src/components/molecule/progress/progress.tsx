@@ -56,6 +56,12 @@ const progress = () => {
     };
   });
 
+  const aniProgressCurent = useAnimatedStyle(() => {
+    return {
+      width: seekerMove.value,
+    };
+  });
+
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (_, ctx: any) => {
       ctx.startX = progress.value;
@@ -107,9 +113,15 @@ const progress = () => {
             borderRadius: 99,
             backgroundColor: themeCol.progressBar,
           }}>
-          <Animated.View>
+          <Animated.View style={[styles.progressCurent, aniProgressCurent]}>
             <PanGestureHandler minDist={20} onGestureEvent={gestureHandler}>
-              <Animated.View style={[styles.ballSeek, aniStyle]} />
+              <Animated.View
+                style={[
+                  styles.ballSeek,
+                  {backgroundColor: themeCol.progressBall},
+                  aniStyle,
+                ]}
+              />
             </PanGestureHandler>
           </Animated.View>
         </View>
@@ -126,6 +138,11 @@ const styles = StyleSheet.create({
     width: 20,
     left: -10,
     borderRadius: 10,
-    backgroundColor: 'lightblue',
+  },
+  progressCurent: {
+    height: 10,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    borderRadius: 99,
   },
 });

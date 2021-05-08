@@ -51,6 +51,7 @@ const themeDark = {
   iconContainerFocus: color.dark[5],
   card: color.dark[3],
   progressBar: color.red[7],
+  progressBall: color.white[1],
 };
 
 const themeLight = {
